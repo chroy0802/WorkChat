@@ -1,0 +1,19 @@
+{
+  "name": "workchat",
+  "version": "1.0.0",
+  "description": "An office team chat application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chiranjiv-Roy/WorkChat.git"
+  },
+  "author": "Chiranjiv Roy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chiranjiv-Roy/WorkChat/issues"
+  },
+  "homepage": "https://github.com/Chiranjiv-Roy/WorkChat#readme"
+}
