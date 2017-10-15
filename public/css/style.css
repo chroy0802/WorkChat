@@ -1,0 +1,43 @@
+#sidebar-left{
+	float:left;
+	width:20%;
+	background-color: #f5f5f5;
+}
+
+#rooms{
+	position: relative;
+	float:left;
+	height:50%;
+	background-color: #f5f5f5;
+}
+
+#people{
+	position: relative;
+	float:left;
+	height:50%;
+	background-color: #f5f5f5;
+}
+
+#main {
+	float:left;
+	width:65%;
+}
+
+#sidebar-right {
+	float:left;
+	width:15%;
+	background-color: #f5f5f5;
+}
+
+#sidebar-left, #main, #sidebar-right{
+	min-height: 100%;				
+}
+
+.navbar-inverse { 
+	background-color: #337ab7 !important; 
+}
+
+.navbar-inverse .navbar-brand {
+	color: #ffffff !important;
+}
+
