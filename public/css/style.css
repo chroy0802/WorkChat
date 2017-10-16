@@ -40,4 +40,16 @@
 .navbar-inverse .navbar-brand {
 	color: #ffffff !important;
 }
+ 
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 60%;
+    height: 60px;
+    line-height: 60px;
+    background-color: #f5f5f5;
+}
 
+html, body {
+    height: 100%;
+}
