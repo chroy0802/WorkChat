@@ -53,8 +53,31 @@
 .footer {
     position: absolute;
     bottom: 0;
-    width: 60%;
+    width: 65%;
     height: 60px;
     line-height: 60px;
-    background-color: #f5f5f5;
+    background-color: #f5f5f5
+}
+
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+.glyphicon.glyphicon-send {
+    font-size: 30px;
 }

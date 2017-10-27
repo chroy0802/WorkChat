@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Chiranjiv-Roy/WorkChat/issues"
   },
-  "homepage": "https://github.com/Chiranjiv-Roy/WorkChat#readme"
+  "homepage": "https://github.com/Chiranjiv-Roy/WorkChat#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "redis": "^2.8.0",
+    "socket.io": "^2.0.3"
+  }
 }

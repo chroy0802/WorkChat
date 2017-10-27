@@ -1,12 +1,29 @@
 <html>
-    <head>
-  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  		<link rel="stylesheet" href="css/style.css">
-  		<link rel="stylesheet" href="css/chat_room.css">
+  <head>
+    <title>WorkChat</title>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="js/moment.js"></script>
+    <script src="js/livestamp.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ 		<link rel="stylesheet" href="css/style.css">
+  	<link rel="stylesheet" href="css/chat_room.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
 		<script src="https://use.fontawesome.com/45e03a14ce.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
+    <script id="text-template" type="text/x-handlebars-template">
+      <li class="left clearfix">
+        <span class="chat-img1 pull-left">
+          <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
+        </span>
+        <div class="chat-body1 clearfix">
+          <p>{{message}}</p>
+          <div class="chat_time pull-right" data-livestamp="{{time}}"></div>
+        </div>
+      </li>
+    </script>
+		<script src="js/client.js"></script>
 	</head>
 	<body>
 		<nav class="navbar-inverse navbar-fixed-top">
@@ -54,84 +71,26 @@
 		 <div class="row">
 		 <div class="chat_area">
 		 <ul class="list-unstyled">
-		 <li class="left clearfix">
-                     <span class="chat-img1 pull-left">
-                     <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
-                     </span>
-                     <div class="chat-body1 clearfix">
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-						<div class="chat_time pull-right">09:40PM</div>
-                     </div>
-                  </li>
-				   <li class="left clearfix">
-                     <span class="chat-img1 pull-left">
-                     <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
-                     </span>
-                     <div class="chat-body1 clearfix">
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-						<div class="chat_time pull-right">09:40PM</div>
-                     </div>
-                  </li>
-                     <li class="left clearfix">
-                     <span class="chat-img1 pull-left">
-                     <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
-                     </span>
-                     <div class="chat-body1 clearfix">
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-    					<div class="chat_time pull-right">09:40PM</div>
-                     </div>
-                  </li>
-				  <li class="left clearfix">
-                     <span class="chat-img1 pull-left">
-                     <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
-                     </span>
-                     <div class="chat-body1 clearfix">
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-						<div class="chat_time pull-right">09:40PM</div>
-                     </div>
-                  </li>
-                  <li class="left clearfix">
-                     <span class="chat-img1 pull-left">
-                     <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
-                     </span>
-                     <div class="chat-body1 clearfix">
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-    					<div class="chat_time pull-right">09:40PM</div>
-                     </div>
-                  </li>
-		<li class="left clearfix">
-                     <span class="chat-img1 pull-left">
-                     <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
-                     </span>
-                     <div class="chat-body1 clearfix">
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-    					<div class="chat_time pull-right">09:40PM</div>
-                     </div>
-                  </li>
-<li class="left clearfix">
-                     <span class="chat-img1 pull-left">
-                     <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
-                     </span>
-                     <div class="chat-body1 clearfix">
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-    					<div class="chat_time pull-right">09:40PM</div>
-                     </div>
-                  </li>
-<li class="left clearfix">
-                     <span class="chat-img1 pull-left">
-                     <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
-                     </span>
-                     <div class="chat-body1 clearfix">
-                        <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia.</p>
-    					<div class="chat_time pull-right">09:40PM</div>
-                     </div>
-                  </li>
 		 </ul>
 		 </div><!--chat_area-->
 		 </div>
          </div> <!--message_section-->
-   </div>
-		</div>
+    </div>
+    <!-- <div class="footer">
+      <div class="inner-addon right-addon">
+        <i id="send" class="glyphicon glyphicon-send"></i>
+        <input class="form-control input-lg" type="text" id="message-box" placeholder="Write a message here..." rows="3" style="width: 100%"/>
+      </div>
+    </div>  -->
+      <div class="panel-footer" style="position: absolute;bottom: 0;width: 65%;padding: 0px 0px">
+        <div class="input-group">
+          <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
+          <span class="input-group-btn">
+            <button class="btn btn-warning btn-sm" id="btn-chat">Send</button>
+          </span>
+        </div>
+      </div>
+    </div>
 		<div id="sidebar-right">
 			<h4 style="font-weight: bold; margin-left: 15%">ONLINE USERS</h4>
 			<ul id="online"></ul>
@@ -155,5 +114,22 @@
 		    </div>
 		  </div>
 		</div>
+		<div class="modal fade" id="modalName">
+		  <div class="modal-dialog">
+		  <div class="modal-content">
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+    			<label for="User">Enter Your Name</label>
+    			<input type="text" class="form-control" id="username" placeholder="Fullname">
+  			  </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+          </div>
+          </div>
+          </div>
+        </div>
 	</body>
 </html>
