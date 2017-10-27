@@ -1,12 +1,13 @@
+<DOCTYPE html>
 <html>
   <head>
     <title>WorkChat</title>
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="js/moment.js"></script>
-    <script src="js/livestamp.js"></script>
+    <script src="/public/js/moment.js"></script>
+    <script src="/public/js/livestamp.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
- 		<link rel="stylesheet" href="css/style.css">
-  	<link rel="stylesheet" href="css/chat_room.css">
+ 		<link rel="stylesheet" href="/public/css/style.css">
+  	<link rel="stylesheet" href="/public/css/chat_room.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
 		<script src="https://use.fontawesome.com/45e03a14ce.js"></script>
@@ -15,15 +16,15 @@
     <script id="text-template" type="text/x-handlebars-template">
       <li class="left clearfix">
         <span class="chat-img1 pull-left">
-          <img src="images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
+          <img src="/public/images/IMG_0903.JPG" alt="User Avatar" class="img-circle">
         </span>
         <div class="chat-body1 clearfix">
           <p>{{message}}</p>
-          <div class="chat_time pull-right" data-livestamp="{{time}}"></div>
+          <span class="chat_time pull-right" data-livestamp="{{time}}"></span>
         </div>
       </li>
     </script>
-		<script src="js/client.js"></script>
+		<script src="/public/js/client.js"></script>
 	</head>
 	<body>
 		<nav class="navbar-inverse navbar-fixed-top">
