@@ -11,10 +11,15 @@ $(window).on('load',function(){
       $('.list-unstyled').append(html);
     };
 
-    var socket = io({transports: ['websocket'], upgrade: false});
+    var socket = io.connect();
     $('#btn-chat').click((e) => {
       e.preventDefault();
       socket.emit('message sent', $('#btn-input').val());
     });
     socket.on('message received', (message) => addLi(message));
+
+    var uploader = new SocketIOFileUpload(socket);
+    console.log(uploader);
+    uploader.listenOnInput(document.getElementById("siofu_input"));
+
 });
