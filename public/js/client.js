@@ -18,18 +18,9 @@ $(window).on('load',function(){
       var d = new Date(); 
       var time = d.toISOString();
       var context = {name: file.name, size: file.size, time: time};
-      var html    = template(context);
- 
+      var html = template(context);
       $('.list-unstyled').append(html);
     };
-    
-    var download = (filename) => {
-      console.log("Inside download");
-      $.ajax({
-        url:'/download',
-        type:'GET',
-        data:{file: filename}});
-    }
 
     var socket = io.connect();
     $('#btn-chat').click((e) => {

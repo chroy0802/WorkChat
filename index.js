@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/download', (req, res) => {
-	var filename = req.body.file;
+	var filename = req.query['file'];
 	console.log(path.join(__dirname, 'upload_files/'+filename));
   res.download(path.join(__dirname, 'upload_files/'+filename));
 });
