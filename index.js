@@ -1,7 +1,8 @@
 const express = require('express'),
   socketio = require('socket.io'),
   siofu = require('socketio-file-upload'),
-  path = require('path');
+  path = require('path'),
+  mime = require('mime');
 
 
 var app = express();
@@ -27,8 +28,9 @@ io.on('connection', function (socket) {
     uploader.dir = path.join(__dirname, 'upload_files');
     uploader.listen(socket);
     uploader.on("saved", (event) => {
-    	console.log(event);
-        io.sockets.emit('file received', event.file);
+    	var type = mime.getType(event.file.name);
+    	console.log(type);
+        io.sockets.emit('file received', event.file, type);
     });
   socket.on('message sent', (message) => {
   	io.sockets.emit('message received', message);
