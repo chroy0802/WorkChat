@@ -12,19 +12,21 @@ $(window).on('load',function(){
     };
     
     var addFileLi = (file, type) => {
-      Handlebars.registerHelper("if", function(conditional, options) {
-        if (options.hash.desired === options.hash.type) {
-          options.fn(this);
-        } else {
-          options.inverse(this);
-        }
-      });
       var source   = document.getElementById('text-file-template').innerHTML;
       var template = Handlebars.compile(source);
       var d = new Date(); 
       var time = d.toISOString();
       var type = type.split('/')[0];
-      var context = {name: file.name, size: file.size, time: time, type: type};
+      var audio = false;
+      var video = false;
+      var image = false;
+      if(type === "image")
+        image = true;
+      if(type === "audio")
+        audio = true;
+      if(type === "video")
+        video = true;
+      var context = {name: file.name, size: file.size, time: time, audio: audio, video: video, image: image};
       var html = template(context);
       $('.list-unstyled').append(html);
     };
@@ -35,7 +37,7 @@ $(window).on('load',function(){
       socket.emit('message sent', $('#btn-input').val());
     });
     socket.on('message received', (message) => addLi(message));
-    socket.on('file received', (file, type) => addFileLi(file));
+    socket.on('file received', (file, type) => addFileLi(file, type));
     var uploader = new SocketIOFileUpload(socket);
     console.log(uploader);
     uploader.listenOnInput(document.getElementById("siofu_input"));

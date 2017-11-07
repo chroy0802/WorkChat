@@ -32,14 +32,14 @@
         </span>
         <div class="chat-body1 clearfix">
           <p><span style="font-style: oblique;font-weight: bold;">Chiranjiv Roy: </span><br /> File: {{name}}<br />Size: {{size}}<br /><a target="blank" href="/download?file={{name}}">click here to download</a></p>
-          {{#if type desired="image" type=type}}
+          {{#if image}}
               <img src="/download?file={{name}}" />
           {{/if}}
-          {{#if type desired="video" type=type}}
-              <video src="/download?file={{name}}" />
+          {{#if video}}
+              <video src="/download?file={{name}}" controls="true"/>
           {{/if}}
-          {{#if type desired="audio" type=type}}
-              <audio src="/download?file={{name}}" />
+          {{#if audio}}
+              <audio src="/download?file={{name}}" controls="true"/>
           {{/if}}
           <span class="chat_time pull-right" data-livestamp="{{time}}"></span>
           <span class="pull-right glyphicon glyphicon-time" style="padding-right: 5px;" />
