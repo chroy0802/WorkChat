@@ -1,5 +1,6 @@
 $(window).on('load',function(){
     // $('#modalName').modal('show');
+    new EmojiPicker().discover();
     var addLi = (message) => {
       var source   = document.getElementById('text-template').innerHTML;
       var template = Handlebars.compile(source);
