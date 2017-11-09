@@ -1,6 +1,13 @@
 $(window).on('load',function(){
     // $('#modalName').modal('show');
-    new EmojiPicker().discover();
+    window.emojiPicker = new EmojiPicker({
+      emojiable_selector: '[data-emojiable=true]',
+      assetsPath: '../images/',
+      popupButtonClasses: 'fa fa-smile-o'
+    });
+
+    window.emojiPicker.discover();
+    
     var addLi = (message) => {
       var source   = document.getElementById('text-template').innerHTML;
       var template = Handlebars.compile(source);
