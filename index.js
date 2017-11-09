@@ -28,7 +28,7 @@ io.on('connection', function (socket) {
     uploader.dir = path.join(__dirname, 'upload_files');
     uploader.listen(socket);
     uploader.on("saved", (event) => {
-    	var type = mime.lookup(event.file.name);
+    	var type = mime.getType(event.file.name);
     	console.log(type);
         io.sockets.emit('file received', event.file, type);
     });

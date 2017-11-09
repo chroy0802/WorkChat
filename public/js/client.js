@@ -2,7 +2,7 @@ $(window).on('load',function(){
     // $('#modalName').modal('show');
     window.emojiPicker = new EmojiPicker({
       emojiable_selector: '[data-emojiable=true]',
-      assetsPath: '../images/',
+      assetsPath: '/public/images',
       popupButtonClasses: 'fa fa-smile-o'
     });
 
