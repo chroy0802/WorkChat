@@ -1,0 +1,24 @@
+body {
+    padding-top: 100px;
+}
+
+header {
+    background: #fff;
+    height: 100px;
+    position: fixed;
+    top: 0;
+    transition: top 0.2s ease-in-out;
+    width: 100%;
+    box-shadow: 0 8px 13px rgba(0,0,0,.1);
+}
+
+.nav-up {
+    top: -100px;
+}
+
+main {
+    height: 2000px;
+}
+
+footer { background: #ddd;}
+* { color: transparent}
