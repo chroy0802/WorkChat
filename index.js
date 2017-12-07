@@ -19,18 +19,19 @@ var sessionStore = new RedisStore({client:rClient});
 
 var socketIOExpressSession = require('socket.io-express-session');
 app.use(cookieParser());
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({store:sessionStore, secret:'your secret here', resave: true, saveUninitialized: true}));
 io.use(socketIOExpressSession(app.session));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
+  console.log(req.session);
 	res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
-var SessionSockets = require('session.socket.io');
-var sessionSockets = new SessionSockets(io, sessionStore, cookieParser, 'jsessionid');
+//var SessionSockets = require('session.socket.io');
+//var sessionSockets = new SessionSockets(io, sessionStore, cookieParser, 'jsessionid');
 
 app.get('/download', (req, res) => {
 	var filename = req.query['file'];
