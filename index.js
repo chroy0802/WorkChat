@@ -1,4 +1,5 @@
 const express = require('express'),
+  config = require('./config.js'),
   socketio = require('socket.io'),
   siofu = require('socketio-file-upload'),
   path = require('path'),
@@ -14,19 +15,20 @@ var session = require('express-session');
 
 var redis = require('redis');
 const RedisStore = require('connect-redis')(session);
-var rClient = redis.createClient();
+var rClient = redis.createClient(config.redis_port, config.redis_host);
 var sessionStore = new RedisStore({client:rClient});
+var redisAdapter = require('socket.io-redis');
 
 var socketIOExpressSession = require('socket.io-express-session');
 app.use(cookieParser());
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({store:sessionStore, secret:'your secret here', resave: true, saveUninitialized: true}));
-io.use(socketIOExpressSession(app.session));
+io.use(socketIOExpressSession(session({store:sessionStore, secret:'your secret here', resave: true, saveUninitialized: true})));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+io.adapter(redisAdapter({ host: config.redis_host, port: config.redis_port }));
 
 app.get('/', (req, res) => {
-  console.log(req.session);
 	res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
@@ -41,15 +43,15 @@ app.get('/download', (req, res) => {
 
 app.post('/login', function (req, res) {
     //store user info in session after login.
-    console.log(req.body);
+    console.log(req.session);
     //req.session.user = req.body.user;
     //TODO
-    //res.render('public/index');
+    res.sendFile(path.join(__dirname, 'public/index.html'))
 });
 
 io.on('connection', function (socket) {
   // socket.broadcast.emit('user.events', 'Someone has joined!');
-  console.log("Another tab joined!!!");
+  console.log(socket);
   var uploader = new siofu();
     uploader.dir = path.join(__dirname, 'upload_files');
     uploader.listen(socket);
