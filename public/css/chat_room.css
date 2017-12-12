@@ -21,12 +21,10 @@
   position: relative;
 }
 .chat_area {
-  float: left;
   min-height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
-  margin-bottom: 60px;
 }
 .chat_area li {
   padding: 14px 14px 0;

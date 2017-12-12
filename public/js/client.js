@@ -1,5 +1,10 @@
 $(window).on('load',function(){
     // $('#modalName').modal('show');
+    window.Split(['#sidebar-left', '#main', '#sidebar-right'],
+      {
+        sizes: [20, 50, 30],
+        minSize: 100
+      });
     window.emojiPicker = new EmojiPicker({
       emojiable_selector: '[data-emojiable=true]',
       assetsPath: '/public/images',
