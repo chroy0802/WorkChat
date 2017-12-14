@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>WorkChat</title>
+    <title>Do.</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="/public/js/moment.js"></script>
     <script src="/public/js/livestamp.min.js"></script>
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/public/css/emoji.css">
     <link rel="stylesheet" href="/public/css/style.css">
     <link rel="stylesheet" href="/public/css/chat_room.css">
+    <link href="https://fonts.googleapis.com/css?family=Marck+Script" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
     <script src="https://use.fontawesome.com/45e03a14ce.js"></script>
@@ -47,6 +48,7 @@
             </div>
         </li>
     </script>
+    <script src="/public/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="/siofu/client.js"></script>
     <script src="/public/js/client.js"></script>
     <style type="text/css">
@@ -99,7 +101,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-comment"></span>  WorkChat</a>
+                <a class="navbar-brand" href="#"><span style="font-family: Lato, sans-serif; font-weight: bold; font-size: 35px">Do.</span></a>
             </div>
         </div>
     </nav>
@@ -119,8 +121,7 @@
             </a>
         </div> -->
         <div id="people">
-            <h4 style="font-weight: bold; margin-left: 10%">ONLINE USERS</h4>
-            <ul>
+            <ul class="online-user-list">
                 <li><a href="#tab6">Powislainski</a></li>
                 <li><a href="#tab7">Podhalainski</a></li>
                 <li><a href="#tab8">Kujuwiak Oberek</a></li>
@@ -159,8 +160,10 @@
         </div>
     </div>
     <div id="sidebar-right" class="split split-horizontal">
-        <h4 style="font-weight: bold; text-align: center;">SCRIBBLE</h4>
-        <ul id="online"></ul>
+        <h4 style="font-weight: bold; text-align: center; color: wheat; font-family: 'Marck Script', cursive; font-size: 35px;">Scribble</h4>
+        <div id="editor-wrapper">
+          <div id="editor"></div>
+        </div>
     </div>
     <div id="modalRoom" class="modal fade">
         <div class="modal-dialog" role="document">

@@ -53,6 +53,14 @@ $(window).on('load',function(){
     socket.on('file received', (file, type) => addFileLi(file, type));
     var uploader = new SocketIOFileUpload(socket);
     console.log(uploader);
-    uploader.listenOnInput(document.getElementById("siofu_input"));
+    //uploader.listenOnInput(document.getElementById("siofu_input"));
 
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/dracula");
+    editor.getSession().setMode("ace/mode/javascript");
+    
+    $('#sidebar-right').on("resize", function() { 
+      console.log("resize sidebar");
+      editor.resize();
+    });
 });
