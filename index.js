@@ -29,7 +29,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 io.adapter(redisAdapter({ host: config.redis_host, port: config.redis_port }));
 
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, 'public/login.html'));
+	res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 //var SessionSockets = require('session.socket.io');
@@ -60,8 +60,13 @@ io.on('connection', function (socket) {
     	console.log(type);
         io.sockets.emit('file received', event.file, type);
     });
+    
   socket.on('message sent', (message) => {
   	io.sockets.emit('message received', message);
+  });
+
+  socket.on('diff', (edits) => {
+    socket.broadcast.emit('patch',edits);
   });
 });
 

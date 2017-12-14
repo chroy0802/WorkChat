@@ -48,7 +48,7 @@
 }
 
 .navbar-inverse {
-    background-color: #337ab7 !important;
+    background-color: #1abc9c !important;     /*#337ab7*/
 }
 
 .navbar-inverse .navbar-brand {
@@ -134,4 +134,8 @@ i.emoji-picker-icon {
 
 .online-user-list li:hover {
 	background: white;
+}
+
+a{
+    color: black;
 }

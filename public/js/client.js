@@ -54,11 +54,22 @@ $(window).on('load',function(){
     var uploader = new SocketIOFileUpload(socket);
     console.log(uploader);
     //uploader.listenOnInput(document.getElementById("siofu_input"));
-
+    var last_applied_change = null;
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/dracula");
     editor.getSession().setMode("ace/mode/javascript");
     
+    editor.on('change', function (data) {
+    if (last_applied_change != data)
+      socket.emit('diff', JSON.stringify(data));
+    });
+   
+    socket.on('patch', (diff) => {
+    diff = JSON.parse( diff ) ;
+    last_applied_change = diff;
+    editor.getSession().getDocument().applyDeltas( [diff] );
+    });
+
     $('#sidebar-right').on("resize", function() { 
       console.log("resize sidebar");
       editor.resize();
