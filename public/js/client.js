@@ -45,14 +45,22 @@ $(window).on('load',function(){
     };
 
     var socket = io.connect();
+
     $('#btn-chat').click((e) => {
       e.preventDefault();
       socket.emit('message sent', $('#btn-input').val());
     });
+
+    $('.rooms-list li').click((e) => {
+      e.preventDefault();
+      var room = $(e.currentTarget).find("a").text();
+      alert("welcome to "+room);
+      socket.emit('join room', room);
+    });
+
     socket.on('message received', (message) => addLi(message));
     socket.on('file received', (file, type) => addFileLi(file, type));
     var uploader = new SocketIOFileUpload(socket);
-    console.log(uploader);
     //uploader.listenOnInput(document.getElementById("siofu_input"));
     var last_applied_change = null;
     var editor = ace.edit("editor");

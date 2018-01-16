@@ -118,13 +118,13 @@ i.emoji-picker-icon {
     transform: translateY(-100%);
 }
 
-.online-user-list {
+.rooms-list {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.online-user-list li{
+.rooms-list li{
 	margin: 0;
 	padding: 20px;
 	border-bottom: 1px solid #eee;
@@ -132,7 +132,7 @@ i.emoji-picker-icon {
     padding-left: 30px;
 }
 
-.online-user-list li:hover {
+.rooms-list li:hover {
 	background: white;
 }
 
