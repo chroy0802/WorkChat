@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test split</title>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/split.js/split.min.js"></script>
+    <style type="text/css">
+    .split p,
+    .split-flex p {
+        padding: 20px;
+    }
+
+    .split,
+    .split-flex {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .gutter {
+        background-color: #eee;
+
+        background-repeat: no-repeat;
+        background-position: 50%;
+    }
+
+    .gutter.gutter-horizontal {
+        background-image: url('grips/vertical.png');
+        cursor: ew-resize;
+    }
+
+    .gutter.gutter-vertical {
+        background-image: url('grips/horizontal.png');
+        cursor: ns-resize;
+    }
+
+    .split.split-horizontal,
+    .gutter.gutter-horizontal {
+        height: 100%;
+        float: left;
+    }
+    div {
+    	height: 100vh;
+    }
+    </style>
+</head>
+
+<body>
+	<div>
+	    <div id="one" class="split split-horizontal"></div>
+	    <div id="two" class="split split-horizontal"></div>
+	    <div id="three" class="split split-horizontal"></div>
+	</div>
+    <script type="text/javascript">
+    	window.Split(['#one', '#two', '#three']);
+    </script>
+</body>
+
+</html>

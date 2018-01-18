@@ -16,6 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
     <script src="https://use.fontawesome.com/45e03a14ce.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/js/URI.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
     <script id="text-template" type="text/x-handlebars-template">
         <li class="left clearfix">
@@ -23,7 +24,8 @@
           <img src="/public/images/user1.png" alt="User Avatar" class="img-circle">
         </span>
             <div class="chat-body1 clearfix">
-                <p><span style="font-style: oblique;font-weight: bold;">Chiranjiv Roy: </span>{{message}}</p>
+                <span style="font-style: oblique;font-weight: bold;">{{username}}: </span>
+                <p>{{{message}}}</p>
                 <span class="chat_time pull-right" data-livestamp="{{time}}"></span>
                 <span class="pull-right glyphicon glyphicon-time" style="padding-right: 5px;" />
             </div>
@@ -35,7 +37,7 @@
           <img src="/public/images/user1.png" alt="User Avatar" class="img-circle">
         </span>
             <div class="chat-body1 clearfix">
-                <p><span style="font-style: oblique;font-weight: bold;">Chiranjiv Roy: </span>
+                <p><span style="font-style: oblique;font-weight: bold;">{{username}}: </span>
                     <br /> File: {{name}}
                     <br />Size: {{size}}
                     <br /><a target="blank" href="/download?file={{name}}">click here to download</a></p>
@@ -151,7 +153,7 @@
     </div>  -->
         <div class="footer">
             <div class="input-group">
-                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." data-emojiable="true">
+                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
                 <!-- <span class="input-group-btn">
             <button class="btn btn-warning btn-sm" id="btn-chat">Send</button>
           </span> -->

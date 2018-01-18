@@ -11,6 +11,34 @@ $(window).on('load',function(){
       popupButtonClasses: 'fa fa-smile-o'
     });
 
+    var uri = new URI(window.location.href);
+    var uri_hash = uri.hash();
+    var tokens = uri_hash.split('&').reduce(function (result, item) {
+        var parts = item.split('=');
+        result[parts[0]] = parts[1];
+        return result;
+    }, {});
+
+    var username = "GHOST";
+
+    $.ajax({
+      method: 'GET',
+      url: 'https://graph.microsoft.com/v1.0/me',
+      success: function (data) {
+        username = data.givenName;
+      },
+      error: function (xhr, status, err) {
+        console.log(xhr, status, err);
+      },
+      beforeSend: function (xhr) {
+        var token_string = 'Bearer ' + tokens['#access_token'];
+        console.log(token_string);
+        xhr.setRequestHeader('Authorization', token_string);
+      },
+      dataType: "json"
+    });
+
+
     window.emojiPicker.discover();
     
     var addLi = (message) => {
@@ -18,7 +46,7 @@ $(window).on('load',function(){
       var template = Handlebars.compile(source);
       var d = new Date(); 
       var time = d.toISOString();
-      var context = {message: message, time: time};
+      var context = {message: message.message, time: time, username: message.username};
       var html    = template(context);
  
       $('.list-unstyled').append(html);
@@ -46,9 +74,14 @@ $(window).on('load',function(){
 
     var socket = io.connect();
 
-    $('#btn-chat').click((e) => {
-      e.preventDefault();
-      socket.emit('message sent', $('#btn-input').val());
+    socket.on('connection successful', () => { console.log('HIGHBOT'); });
+
+
+    $('#btn-input').keypress( (e) => {
+        if(e.which == 13) {
+          socket.emit('message sent', {username: username, message: $(e.currentTarget).val(), token: tokens['#access_token']});
+          $(e.currentTarget).val("");
+        }
     });
 
     $('.rooms-list li').click((e) => {

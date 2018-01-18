@@ -67,7 +67,8 @@ app.get('/download', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/login.html'));
+  var login_url = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=337bad47-4398-4ff2-b5eb-187684f4e031&response_type=id_token+token&redirect_uri=http%3A%2F%2Flocalhost%3A8080&scope=openid%20https%3A%2F%2Fgraph.microsoft.com%2Fmail.read%20https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadBasic.All&response_mode=fragment&nonce=" + (Math.random() * 100000).toFixed(0)
+  res.send("<body><a href=\"" + login_url + "\">Login with Microsoft</a></body>");
 });
 
 app.get('/register', (req, res) => {
@@ -93,6 +94,9 @@ app.post('/register', function (req, res){
 
 io.on('connection', function (socket) {
   // socket.broadcast.emit('user.events', 'Someone has joined!');
+  console.log('connection successful');
+  socket.emit('connection successful');
+
   var uploader = new siofu();
     uploader.dir = path.join(__dirname, 'upload_files');
     uploader.listen(socket);
