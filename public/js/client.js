@@ -1,4 +1,4 @@
-$(window).on('load',function(){
+$(document).ready(function(){
     // $('#modalName').modal('show');
     window.Split(['#sidebar-left', '#main', '#sidebar-right'],
       {
