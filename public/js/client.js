@@ -65,6 +65,7 @@ $(document).ready(function(){
       current_room = $(e.currentTarget).find("a").text();
       alert("welcome to "+current_room);
       socket.emit('join room', current_room);
+      socket.emit('get current room chats', current_room);
     });
 
     socket.on('message received', (message) => addLi(message));

@@ -116,11 +116,20 @@ io.on('connection', function (socket) {
     });
   
   socket.on('join room', (room) => {
-    var user = socket.request.user;
-    console.log(socket.request.user);
+    chat.addRoom(room);
+    var user = socket.request.user.username;
+    chat.addUserToRoom(user, room);
   })  
 
+  socket.on('get current room chats', (room) => {
+    chat.getRoomChats(room, function(err, data) {
+      console.log(data);
+    })
+  })
+
   socket.on('message sent', (data) => {
+    data.user = socket.request.user;
+    chat.addChat(data);
   	io.sockets.emit('message received', data.message);
   });
 

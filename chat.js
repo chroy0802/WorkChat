@@ -59,12 +59,17 @@ exports.getRooms = function getRooms(cb){
 
 exports.addChat = function addChat(chat){
 	client.multi()
-	.zadd('rooms:' + chat.room + ':chats', Date.now(), JSON.stringify(chat))
-	.zadd('users', Date.now(), chat.user.id)
+	.zadd('rooms:' + chat.room + ':chats', Date.now(), JSON.stringify(chat.message))
+	.zadd('users', Date.now(), chat.user.username)
 	.zadd('rooms', Date.now(), chat.room)
 	.exec();
 };
 
+exports.getRoomChats = function(room, cb){
+    client.zrevrangebyscore('rooms:' + room + ':chats', '+inf', '-inf', function(err, data){
+    	return cb(null, data);
+    })
+}
 
 exports.addUserToRoom = function addUserToRoom(user, room){
 	client.multi()
