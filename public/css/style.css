@@ -2,7 +2,7 @@
     height: 100vh;
     overflow: auto;
     padding-top: 50px;
-    width: 20%;
+    width: 100%;
 }
 
 #rooms {
@@ -48,7 +48,7 @@
 }
 
 .navbar-inverse {
-    background-color: #1abc9c !important;     /*#337ab7*/
+    background-color: #337ab7 !important;     /*#337ab7*/
 }
 
 .navbar-inverse .navbar-brand {
@@ -56,8 +56,6 @@
 }
 
 .footer {
-    position: absolute;
-    bottom: 0;
     width: 100%;
     height: 60px;
     line-height: 60px;

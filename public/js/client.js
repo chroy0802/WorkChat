@@ -1,5 +1,7 @@
-$(window).on('load',function(){
+$(document).ready(function(){
+    var current_room;
     // $('#modalName').modal('show');
+
     window.Split(['#sidebar-left', '#main', '#sidebar-right'],
       {
         sizes: [20, 50, 30],
@@ -46,16 +48,23 @@ $(window).on('load',function(){
 
     var socket = io.connect();
 
-    $('#btn-chat').click((e) => {
-      e.preventDefault();
-      socket.emit('message sent', $('#btn-input').val());
+    // $('#btn-chat').click((e) => {
+    //   e.preventDefault();
+    //   socket.emit('message sent', $('#btn-input').val());
+    // });
+
+    $('#btn-input').keypress( (e) => {
+      if(e.which == 13) {
+        socket.emit('message sent', {message: $(e.currentTarget).val(), room: current_room});
+        $(e.currentTarget).val("");
+      }
     });
 
     $('.rooms-list li').click((e) => {
       e.preventDefault();
-      var room = $(e.currentTarget).find("a").text();
-      alert("welcome to "+room);
-      socket.emit('join room', room);
+      current_room = $(e.currentTarget).find("a").text();
+      alert("welcome to "+current_room);
+      socket.emit('join room', current_room);
     });
 
     socket.on('message received', (message) => addLi(message));

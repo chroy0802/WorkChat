@@ -17,6 +17,7 @@ var rClient = require('./redis').client;
 var sessionStore = new RedisStore({client:rClient});
 var redisAdapter = require('socket.io-redis');
 var passport = require('passport');
+var passportSocketIo = require('passport.socketio');
 var LocalStrategy = require('passport-local').Strategy;
 var chat = require('./chat.js');
 var User = require('./models.js').User;
@@ -57,7 +58,11 @@ passport.deserializeUser(function(user, done) {
 });
 
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, 'public/index.html'));
+	res.sendFile(path.join(__dirname, 'public/home.html'));
+});
+
+app.get('/chat', (req,res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.get('/download', (req, res) => {
@@ -71,18 +76,18 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/register.html'));
+  res.sendFile(path.join(__dirname, 'public/signup.html'));
 });
 
-app.post('/login', passport.authenticate('local',{ successRedirect: '/', failureRedirect: '/login'}), function(req, res){});
+app.post('/login', passport.authenticate('local',{ successRedirect: '/chat', failureRedirect: '/login'}), function(req, res){});
 
 app.post('/register', function (req, res){
-  console.log(req.body);
+  // console.log(req.body);
   if (req.body.username && req.body.password)
   {
       chat.addUser(req.body.username, req.body.email, req.body.password, function(user){
         passport.authenticate('local')(req, res, function () {
-                res.redirect('/');
+                res.redirect('/chat');
             })
       });
   }else{
@@ -90,6 +95,14 @@ app.post('/register', function (req, res){
     res.redirect('/register');
   }
 });
+
+io.use(passportSocketIo.authorize({
+  key: 'connect.sid',
+  secret: 'your secret here',
+  store: sessionStore,
+  passport: passport,
+  cookieParser: cookieParser
+}));
 
 io.on('connection', function (socket) {
   // socket.broadcast.emit('user.events', 'Someone has joined!');
@@ -101,9 +114,14 @@ io.on('connection', function (socket) {
     	console.log(type);
         io.sockets.emit('file received', event.file, type);
     });
-    
-  socket.on('message sent', (message) => {
-  	io.sockets.emit('message received', message);
+  
+  socket.on('join room', (room) => {
+    var user = socket.request.user;
+    console.log(socket.request.user);
+  })  
+
+  socket.on('message sent', (data) => {
+  	io.sockets.emit('message received', data.message);
   });
 
   socket.on('diff', (edits) => {

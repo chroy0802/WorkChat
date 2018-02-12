@@ -15,11 +15,7 @@
    overflow-x: hidden;
    overflow-y: auto;
    }
-   
-.message_section {
-  border: 1px solid #dddddd;
-  position: relative;
-}
+
 .chat_area {
   min-height: 100%;
   overflow-x: hidden;

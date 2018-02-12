@@ -3,21 +3,24 @@
 <head>
 	<title>Workchat</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-	<link rel="stylesheet" href="home.css">
+	<link rel="stylesheet" href="/public/home.css">
 	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="nav-down">
-    <button type="button" class="btn btn-outline-info" style="margin-left: 80%;margin-top: 2%">SIGN UP OR SIGN IN</button>
+    <form method="get" action="/register">
+        <button type="submit" class="btn btn-outline-info" id="sign-up" style="margin-left: 80%;margin-top: 2%">SIGN UP</button>
+    </form>
+    <form method="get" action="/login">
+        <button type="submit" class="btn btn-outline-info" id="sign-in" style="margin-left: 90%;margin-top: -5%">SIGN IN</button>
+    </form>
     </header>
     <main>
     <div></div>
-    <img src="chat5.gif" style="margin-right: 20%;margin-left: 35%;width: 400px" />
     </main>
     <footer>
-    This is your footer.
     </footer>
     <script type="text/javascript">
     	// Hide Header on on scroll down
