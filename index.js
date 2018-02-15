@@ -119,19 +119,19 @@ io.on('connection', function (socket) {
     chat.addRoom(room);
     var user = socket.request.user.username;
     chat.addUserToRoom(user, room);
-  })  
+  });
 
   socket.on('get current room chats', (room) => {
     chat.getRoomChats(room, function(err, data) {
       socket.emit('room chats', data);
-    })
-  })
+    });
+  });
 
   socket.on('message sent', (data) => {
     data.user = socket.request.user.username;
-    data.time = Date.now();
+    data.time = new Date();
     chat.addChat(data);
-  	io.sockets.emit('message received', data.message);
+  	io.sockets.emit('message received', data);
   });
 
   socket.on('diff', (edits) => {
