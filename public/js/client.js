@@ -15,12 +15,14 @@ $(document).ready(function(){
 
     window.emojiPicker.discover();
     
-    var addLi = (message) => {
+    var addLi = (data) => {
       var source   = document.getElementById('text-template').innerHTML;
       var template = Handlebars.compile(source);
-      var d = new Date(); 
-      var time = d.toISOString();
-      var context = {message: message, time: time};
+      if (!(data.hasOwnProperty('time'))){
+        var d = new Date();
+        data.time = d;  
+      }
+      var context = {username: data.user, message: data.message, time: data.time.toISOString()};
       var html    = template(context);
  
       $('.list-unstyled').append(html);
@@ -66,6 +68,12 @@ $(document).ready(function(){
       alert("welcome to "+current_room);
       socket.emit('join room', current_room);
       socket.emit('get current room chats', current_room);
+    });
+
+    socket.on('room chats', (data) => {
+      data.forEach((message) => {
+        addLi(message);
+      });
     });
 
     socket.on('message received', (message) => addLi(message));

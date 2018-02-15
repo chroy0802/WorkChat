@@ -59,8 +59,8 @@ exports.getRooms = function getRooms(cb){
 
 exports.addChat = function addChat(chat){
 	client.multi()
-	.zadd('rooms:' + chat.room + ':chats', Date.now(), JSON.stringify(chat.message))
-	.zadd('users', Date.now(), chat.user.username)
+	.zadd('rooms:' + chat.room + ':chats', Date.now(), JSON.stringify(chat))
+	.zadd('users', Date.now(), chat.user)
 	.zadd('rooms', Date.now(), chat.room)
 	.exec();
 };
