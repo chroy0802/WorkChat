@@ -65,6 +65,16 @@ exports.addChat = function addChat(chat){
 	.exec();
 };
 
+exports.addEditorToRoom = function addEditorToRoom(current_state, room){
+     client.set('rooms:' + room + ':editorState', current_state);
+};
+
+exports.getEditorState = function getEditorState(room, cb){
+	client.get('rooms:' + room + ':editorState', function(err, data){
+		cb(data);
+	});
+}
+
 exports.getRoomChats = function(room, cb){
     client.zrevrangebyscore('rooms:' + room + ':chats', '+inf', '-inf', function(err, data){
     	return cb(null, data);

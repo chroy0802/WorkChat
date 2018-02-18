@@ -127,6 +127,12 @@ io.on('connection', function (socket) {
     });
   });
 
+  socket.on('get current editor state', (room) =>{
+    chat.getEditorState(room, function(data) {
+      socket.emit('editor state', data);
+    })
+  });
+
   socket.on('message sent', (data) => {
     data.user = socket.request.user.username;
     data.time = new Date();
@@ -134,7 +140,8 @@ io.on('connection', function (socket) {
   	io.sockets.emit('message received', data);
   });
 
-  socket.on('diff', (edits) => {
+  socket.on('diff', (edits, current_state, room) => {
+    chat.addEditorToRoom(current_state, room);
     socket.broadcast.emit('patch',edits);
   });
 });
