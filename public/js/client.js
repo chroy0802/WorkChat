@@ -102,6 +102,7 @@ $(document).ready(function(){
 
     socket.on('editor state',(data) => {
       console.log(data);
+      editor.setValue("");
       editor.setValue(data);
     });
 
