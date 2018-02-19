@@ -26,6 +26,13 @@ $(document).ready(function(){
     });
 
     window.emojiPicker.discover();
+
+    $('#run').click(function() {
+      var code = editor.getValue();
+      eval2( code, function(res) {
+        alert(res);
+      });
+    });
     
     var addLi = (data) => {
       console.log(data.time);
@@ -104,16 +111,18 @@ $(document).ready(function(){
     //uploader.listenOnInput(document.getElementById("siofu_input"));
     
     editor.on('change', function (data) {
-    if (last_applied_change != data){
-      var current_state = editor.getValue();
-      socket.emit('diff', JSON.stringify(data), current_state, window.localStorage.getItem('current_room'));
-    }
+      if (last_applied_change != data){
+        var current_state = editor.getValue();
+        socket.emit('diff', JSON.stringify(data), current_state, window.localStorage.getItem('current_room'));
+      }
     });
    
-    socket.on('patch', (diff) => {
-    diff = JSON.parse( diff ) ;
-    last_applied_change = diff;
-    editor.getSession().getDocument().applyDeltas( [diff] );
+    socket.on('patch', (diff, room) => {
+      if(window.localStorage.getItem('current_room') === room){
+        diff = JSON.parse( diff ) ;
+        last_applied_change = diff;
+        editor.getSession().getDocument().applyDeltas( [diff] );
+      }
     });
 
     $('#sidebar-right').on("resize", function() { 

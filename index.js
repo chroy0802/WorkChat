@@ -142,7 +142,7 @@ io.on('connection', function (socket) {
 
   socket.on('diff', (edits, current_state, room) => {
     chat.addEditorToRoom(current_state, room);
-    socket.broadcast.emit('patch',edits);
+    socket.broadcast.emit('patch',edits, room);
   });
 });
 
