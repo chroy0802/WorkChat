@@ -19,6 +19,13 @@ $(document).ready(function(){
         minSize: 100
       });
 
+    window.Split(['#editor-wrapper', '#editor-output'],
+      {
+        sizes: [70, 30],
+        minSize: 100,
+        direction: 'vertical'
+      });
+
     window.emojiPicker = new EmojiPicker({
       emojiable_selector: '[data-emojiable=true]',
       assetsPath: '/public/images',
@@ -27,12 +34,39 @@ $(document).ready(function(){
 
     window.emojiPicker.discover();
 
-    $('#run').click(function() {
-      var code = editor.getValue();
-      eval2( code, function(res) {
-        alert(res);
-      });
-    });
+    var prepareSource = function() {
+      var base_tpl =
+      "<!doctype html>\n" +
+      "<html>\n\t" +
+      "<head>\n\t\t" +
+      "<meta charset=\"utf-8\">\n\t\t" +
+      "<title>Test</title>\n\n\t\t\n\t" +
+      "</head>\n\t" +
+      "<body>\n\t\n\t" +
+      "</body>\n" +
+      "</html>";
+
+      var js = editor.getValue(),
+          src = '';
+
+      src = '<script>' + js + '<\/script>';
+      src = base_tpl.replace('</body>', js + '</body>');
+    
+      return src;
+    };
+
+    var executejs = function () {
+      var source = prepareSource();
+    
+      var iframe = document.querySelector('#editor-output iframe'),
+          iframe_doc = iframe.contentDocument;
+    
+      iframe_doc.open();
+      iframe_doc.write(source);
+      iframe_doc.close()
+    }
+
+    $('#run').click(executejs);
     
     var addLi = (data) => {
       console.log(data.time);

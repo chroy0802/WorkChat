@@ -163,8 +163,11 @@
     <div id="sidebar-right" class="split split-horizontal">
         <h4 style="font-weight: bold; text-align: center; color: wheat; font-family: 'Marck Script', cursive; font-size: 35px;">Scribble</h4>
         <div id="editor-wrapper">
-          <div id="editor"></div>
+            <div id="editor"></div>
         </div>
+        <section id="editor-output" class="split split-vertical" style="position: relative;">
+            <iframe style="height: 100%;width: 100%"></iframe>
+        </section>
     </div>
     <!-- <div id="modalRoom" class="modal fade">
         <div class="modal-dialog" role="document">
@@ -206,7 +209,6 @@
     <script src="public/js/util.js"></script>
     <script src="public/js/jquery.emojiarea.js"></script>
     <script src="public/js/emoji-picker.js"></script>
-    <script src="/public/js/workereval.js"></script>
     <script src="/public/js/client.js"></script>
 </body>
 
