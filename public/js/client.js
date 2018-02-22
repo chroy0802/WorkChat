@@ -50,16 +50,15 @@ $(document).ready(function(){
           src = '';
 
       src = '<script>' + js + '<\/script>';
-      src = base_tpl.replace('</body>', js + '</body>');
-    
+      src = base_tpl.replace('</body>', src + '</body>');   
       return src;
     };
 
     var executejs = function () {
       var source = prepareSource();
     
-      var iframe = document.querySelector('#editor-output iframe'),
-          iframe_doc = iframe.contentDocument;
+      var iframe = $('#editor-output iframe'),
+          iframe_doc = iframe[0].contentDocument;
     
       iframe_doc.open();
       iframe_doc.write(source);
