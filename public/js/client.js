@@ -1,5 +1,10 @@
 $(document).ready(function(){
 
+    // assign random profile picture image
+    window.profilePicID = Math.floor(Math.random() * 4) + 1
+    console.log(profilePicID);
+    
+
     var socket = io.connect();
 
     if(window.localStorage.getItem('current_room') != null){
@@ -81,6 +86,8 @@ $(document).ready(function(){
       var html    = template(context);
  
       $('.list-unstyled').append(html);
+
+      $(".chat-profile-image").css("background-image", "url('/public/images/user" + profilePicID +".jpg')");
     };
     
     var addFileLi = (file, type) => {
