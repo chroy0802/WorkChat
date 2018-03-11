@@ -2,8 +2,6 @@ $(document).ready(function(){
 
     // assign random profile picture image
     window.profilePicID = Math.floor(Math.random() * 4) + 1
-    console.log(profilePicID);
-
 
     var socket = io.connect();
 
@@ -18,18 +16,18 @@ $(document).ready(function(){
     editor.setTheme("ace/theme/dracula");
     editor.getSession().setMode("ace/mode/javascript");
 
-    window.Split(['#sidebar-left', '#main', '#sidebar-right'],
-      {
-        sizes: [20, 50, 30],
-        minSize: 100
-      });
+    // window.Split(['#sidebar-left', '#main', '#sidebar-right'],
+    //   {
+    //     sizes: [20, 50, 30],
+    //     minSize: 100
+    //   });
 
-    window.Split(['#editor-wrapper', '#editor-output'],
-      {
-        sizes: [70, 30],
-        minSize: 100,
-        direction: 'vertical'
-      });
+    // window.Split(['#editor-wrapper', '#editor-output'],
+    //   {
+    //     sizes: [70, 30],
+    //     minSize: 100,
+    //     direction: 'vertical'
+    //   });
 
     window.emojiPicker = new EmojiPicker({
       emojiable_selector: '[data-emojiable=true]',
@@ -72,6 +70,8 @@ $(document).ready(function(){
 
     $('#run').click(executejs);
     
+    var chatContainer = $(".chat_container");
+
     var addLi = (data) => {
       console.log(data.time);
       var source   = document.getElementById('text-template').innerHTML;
@@ -86,6 +86,8 @@ $(document).ready(function(){
       var html    = template(context);
  
       $('.list-unstyled').append(html);
+
+      chatContainer.scrollTop(chatContainer[0].scrollHeight)
     };
     
     var addFileLi = (file, type) => {
