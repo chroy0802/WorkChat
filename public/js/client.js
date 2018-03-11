@@ -3,7 +3,7 @@ $(document).ready(function(){
     // assign random profile picture image
     window.profilePicID = Math.floor(Math.random() * 4) + 1
     console.log(profilePicID);
-    
+
 
     var socket = io.connect();
 
@@ -82,12 +82,10 @@ $(document).ready(function(){
       } else {
         data.time = new Date(data.time);
       }
-      var context = {username: data.user, message: data.message, time: data.time.toISOString()};
+      var context = {username: data.user, message: data.message, time: data.time.toISOString(), profilePicID: data.profilePicID};
       var html    = template(context);
  
       $('.list-unstyled').append(html);
-
-      $(".chat-profile-image").css("background-image", "url('/public/images/user" + profilePicID +".jpg')");
     };
     
     var addFileLi = (file, type) => {
@@ -117,7 +115,7 @@ $(document).ready(function(){
 
     $('#btn-input').keypress( (e) => {
       if(e.which == 13) {
-        socket.emit('message sent', {message: $(e.currentTarget).val(), room: window.localStorage.getItem('current_room')});
+        socket.emit('message sent', {message: $(e.currentTarget).val(), room: window.localStorage.getItem('current_room'), profilePicID: profilePicID});
         $(e.currentTarget).val("");
       }
     });
