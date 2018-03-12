@@ -1,5 +1,8 @@
 $(document).ready(function(){
 
+    // assign random profile picture image
+    window.profilePicID = Math.floor(Math.random() * 4) + 1
+
     var socket = io.connect();
 
     if(window.localStorage.getItem('current_room') != null){
@@ -13,18 +16,18 @@ $(document).ready(function(){
     editor.setTheme("ace/theme/dracula");
     editor.getSession().setMode("ace/mode/javascript");
 
-    window.Split(['#sidebar-left', '#main', '#sidebar-right'],
-      {
-        sizes: [20, 50, 30],
-        minSize: 100
-      });
+    // window.Split(['#sidebar-left', '#main', '#sidebar-right'],
+    //   {
+    //     sizes: [20, 50, 30],
+    //     minSize: 100
+    //   });
 
-    window.Split(['#editor-wrapper', '#editor-output'],
-      {
-        sizes: [70, 30],
-        minSize: 100,
-        direction: 'vertical'
-      });
+    // window.Split(['#editor-wrapper', '#editor-output'],
+    //   {
+    //     sizes: [70, 30],
+    //     minSize: 100,
+    //     direction: 'vertical'
+    //   });
 
     window.emojiPicker = new EmojiPicker({
       emojiable_selector: '[data-emojiable=true]',
@@ -67,6 +70,8 @@ $(document).ready(function(){
 
     $('#run').click(executejs);
     
+    var chatContainer = $(".chat_container");
+
     var addLi = (data) => {
       console.log(data.time);
       var source   = document.getElementById('text-template').innerHTML;
@@ -77,10 +82,12 @@ $(document).ready(function(){
       } else {
         data.time = new Date(data.time);
       }
-      var context = {username: data.user, message: data.message, time: data.time.toISOString()};
+      var context = {username: data.user, message: data.message, time: data.time.toISOString(), profilePicID: data.profilePicID};
       var html    = template(context);
  
       $('.list-unstyled').append(html);
+
+      chatContainer.scrollTop(chatContainer[0].scrollHeight)
     };
     
     var addFileLi = (file, type) => {
@@ -110,7 +117,7 @@ $(document).ready(function(){
 
     $('#btn-input').keypress( (e) => {
       if(e.which == 13) {
-        socket.emit('message sent', {message: $(e.currentTarget).val(), room: window.localStorage.getItem('current_room')});
+        socket.emit('message sent', {message: $(e.currentTarget).val(), room: window.localStorage.getItem('current_room'), profilePicID: profilePicID});
         $(e.currentTarget).val("");
       }
     });

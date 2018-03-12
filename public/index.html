@@ -5,7 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="/public/js/moment.js"></script>
     <script src="/public/js/livestamp.min.js"></script>
-    <script src="https://unpkg.com/split.js/split.min.js"></script>
+    <!-- <script src="https://unpkg.com/split.js/split.min.js"></script> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/public/css/emoji.css">
@@ -18,193 +18,105 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
     <script id="text-template" type="text/x-handlebars-template">
-        <li class="left clearfix">
-            <span class="chat-img1 pull-left">
-            <img src="/public/images/user1.png" alt="User Avatar" class="img-circle">
-            </span>
-            <div class="chat-body1 clearfix">
-                <p><span style="font-style: oblique;font-weight: bold;">{{username}}: </span>{{{message}}}</p>
-                <span class="chat_time pull-right" data-livestamp="{{time}}"></span>
-                <span class="pull-right glyphicon glyphicon-time" style="padding-right: 5px;" />
+        <li class="chat-wrapper clearfix">
+            <div class="chat-profile-image" title="{{username}}" style="background-image: url('/public/images/user{{profilePicID}}.jpg')" );"></div>
+            <div class="chat-body clearfix ">
+                <div>
+                    <span class="chat-body-username">{{username}}</span>                    
+                    <span class="chat-body-time" data-livestamp="{{time}}"></span>
+                </div>
+                <div class="chat-body-message">
+                    {{{message}}}
+                </div>
             </div>
         </li>
     </script>
     <script id="text-file-template" type="text/x-handlebars-template">
         <li class="left clearfix">
             <span class="chat-img1 pull-left">
-          <img src="/public/images/user1.png" alt="User Avatar" class="img-circle">
-        </span>
+                <img src="/public/images/user1.png" alt="User Avatar" class="img-circle">
+            </span>
             <div class="chat-body1 clearfix">
-                <p><span style="font-style: oblique;font-weight: bold;">Chiranjiv Roy: </span>
-                    <br /> File: {{name}}
-                    <br />Size: {{size}}
-                    <br /><a target="blank" href="/download?file={{name}}">click here to download</a></p>
+                <p>
+                    <span style="font-style: oblique;font-weight: bold;">Chiranjiv Roy: </span><br/>
+                    File: {{name}} <br/>
+                    Size: {{size}} <br/>
+                    <a target="blank" href="/download?file={{name}}">click here to download</a>
+                </p>
                 {{#if image}}
-                <img src="/download?file={{name}}" /> {{/if}} {{#if video}}
-                <video src="/download?file={{name}}" controls="true" /> {{/if}} {{#if audio}}
-                <audio src="/download?file={{name}}" controls="true" /> {{/if}}
-                <span class="chat_time pull-right" data-livestamp="{{time}}"></span>
+                    <img src="/download?file={{name}}" /> 
+                {{/if}} 
+                {{#if video}}
+                    <video src="/download?file={{name}}" controls="true" />
+                {{/if}}
+                {{#if audio}}
+                    <audio src="/download?file={{name}}" controls="true" />
+                {{/if}}
+                <span class="chat_time pull-right" data-livestamp="{{time}}" />
                 <span class="pull-right glyphicon glyphicon-time" style="padding-right: 5px;" />
             </div>
         </li>
     </script>
     <script src="/public/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="/siofu/client.js"></script>
-    <style type="text/css">
-    .split p,
-    .split-flex p {
-        padding: 20px;
-    }
-
-    .split,
-    .split-flex {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    .gutter {
-        background-color: #eee;
-
-        background-repeat: no-repeat;
-        background-position: 50%;
-    }
-
-    .gutter.gutter-horizontal {
-        background-image: url('/public/images/vertical.png');
-        cursor: ew-resize;
-    }
-
-    .gutter.gutter-vertical {
-        background-image: url('/public/images/horizontal.png');
-        cursor: ns-resize;
-    }
-
-    .split.split-horizontal,
-    .gutter.gutter-horizontal {
-        height: 100%;
-        float: left;
-    }
-    </style>
 </head>
 
 <body>
     <nav class="navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
+        <div class="container-fluid" style="display: flex">
+            <div class="navbar-header"  style="flex: 2">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="icon-bar "></span>
+                    <span class="icon-bar "></span>
+                    <span class="icon-bar "></span>
                 </button>
-                <a class="navbar-brand" href="#"><span style="font-family: Lato, sans-serif; font-weight: bold; font-size: 35px">Do.</span></a>
+                <a class="navbar-brand" href="#" id="logo"><span>Do.</span></a>
             </div>
-            <a id="run" style="float:right;color:white;margin-top:2vh;margin-right:200;cursor: pointer"><span class="glyphicon glyphicon-play"></span></a>
+            <a id="run">
+                Run&nbsp;
+                <span class="glyphicon glyphicon-play"></span>
+            </a>
         </div>
     </nav>
-    <div id="sidebar-left" class="split split-horizontal" style="background: #f5f5f5">
-<!--    <div id="rooms">
-            <h4 style="font-weight: bold; margin-left: 10%">ROOMS</h4>
-            <ul>
-                <li><a href="#tab6">Powislainski</a></li>
-                <li><a href="#tab7">Podhalainski</a></li>
-                <li><a href="#tab8">Kujuwiak Oberek</a></li>
-                <li><a href="#tab9">Krakowiak</a></li>
-                <li><a href="#tab10">Szlansk</a></li>
-            </ul>
-            <a href="#" style="margin-left: 10%" data-toggle="modal" data-target="#modalRoom">
-            <span class="glyphicon glyphicon-plus"></span>
-            create a new room
-            </a>
-        </div> -->
-        <div id="rooms">
-            <ul class="rooms-list">
-                <li><a >India Cloud</a></li>
-                <li><a >Search</a></li>
-                <li><a >Saperion</a></li>
-                <li><a >Image Now</a></li>
-                <li><a >Mobile Team</a></li>
-            </ul>
-        </div>
-    </div>
-    <div id="main" class="split split-horizontal" style="display: flex; flex-direction: column; height: 100vh;">
-        <div class="chat_container" style="width: 100%; flex: 2; overflow: auto;">
-            <div class="col-sm-9 message_section" style="width: 100% ">
-                <div class="row">
-                    <div class="chat_area">
-                        <ul class="list-unstyled">
-                        </ul>
-                    </div>
-                    <!--chat_area-->
-                </div>
-            </div>
-            <!--message_section-->
-        </div>
-        <!-- <div class="footer">
-      <div class="inner-addon right-addon">
-        <i id="send" class="glyphicon glyphicon-send"></i>
-        <input class="form-control input-lg" type="text" id="message-box" placeholder="Write a message here..." rows="3" style="width: 100%"/>
-      </div>
-    </div>  -->
-        <div class="footer">
-            <div class="input-group">
-                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." >
-                <!-- data-emojiable="true" -->
-                <!-- <span class="input-group-btn">
-            <button class="btn btn-warning btn-sm" id="btn-chat">Send</button>
-          </span> -->
-                <!-- <input type="file" id="siofu_input" name="myfile" /> -->
+    <div class="content-wrapper">
+        <div id="sidebar-left">
+            <div id="rooms">
+                <ul class="rooms-list">
+                    <li><div class="room-pic">#</div><div>India Cloud</div></li>
+                    <li><div class="room-pic">#</div><div>Search</div></li>
+                    <li><div class="room-pic">#</div><div>Saperion</div></li>
+                    <li><div class="room-pic">#</div><div>Image Now</div></li>
+                    <li><div class="room-pic">#</div><div>Mobile Team</div></li>
+                </ul>
             </div>
         </div>
-    </div>
-    <div id="sidebar-right" class="split split-horizontal">
-        <h4 style="font-weight: bold; text-align: center; color: wheat; font-family: 'Marck Script', cursive; font-size: 35px; margin: 0; padding: 10px; background: #282a36">Scribble</h4>
-        <div id="editor-wrapper">
-            <div id="editor"></div>
-        </div>
-        <section id="editor-output" class="split split-vertical" style="position: relative;">
-            <iframe style="height: 100%;width: 100%"></iframe>
-        </section>
-    </div>
-    <!-- <div id="modalRoom" class="modal fade">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Create a new chat room</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form></form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="modalName">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="User">Enter Your Name</label>
-                            <input type="text" class="form-control" id="username" placeholder="Fullname">
+        <div id="main">
+            <div class="chat_container" style="width: 100%; flex: 2; overflow: auto;">
+                <div class="col-sm-9 message_section" style="width: 100%">
+                    <div class="row">
+                        <div class="chat_area">
+                            <ul class="list-unstyled">
+                            </ul>
                         </div>
-                    </form>
+                        <!--chat_area-->
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
-                </div>
+                <!--message_section-->
+            </div>
+            <div class="footer">
+                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
             </div>
         </div>
-    </div> -->
+        <div id="sidebar-right">
+            <h4 style="font-weight: bold; text-align: center; color: wheat; font-family: 'Marck Script', cursive; font-size: 35px; margin: 0; padding: 10px; background: #282a36">Scribble</h4>
+            <div id="editor-wrapper">
+                <div id="editor"></div>
+            </div>
+            <section id="editor-output">
+                <iframe style="height: 100%;width: 100%" frameBorder="0"></iframe>
+            </section>
+        </div>
+    </div>
     <script src="public/js/config.js"></script>
     <script src="public/js/util.js"></script>
     <script src="public/js/jquery.emojiarea.js"></script>
