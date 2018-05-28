@@ -1,0 +1,40 @@
+{
+  "name": "workchat",
+  "version": "1.0.0",
+  "description": "An office team chat application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chiranjiv-Roy/WorkChat.git"
+  },
+  "author": "Chiranjiv Roy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chiranjiv-Roy/WorkChat/issues"
+  },
+  "homepage": "https://github.com/Chiranjiv-Roy/WorkChat#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect-redis": "^3.3.2",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "flow-maintained": "^0.2.4",
+    "ftpd": "git+https://github.com/sstur/nodeftpd.git",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport.socketio": "^3.7.0",
+    "q": "^1.5.1",
+    "redis": "^2.8.0",
+    "session.socket.io": "^0.2.1",
+    "socket.io": "^2.0.3",
+    "socket.io-express-session": "^0.1.3",
+    "socket.io-redis": "^5.2.0",
+    "socketio-file-upload": "^0.6.0"
+  }
+}

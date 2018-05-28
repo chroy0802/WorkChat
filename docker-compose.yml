@@ -1,0 +1,32 @@
+nginx:
+    build: ./nginx
+    links:
+        - node1:node1
+        - node2:node2
+        - node3:node3
+    volumes:
+        - ./src/public:/usr/share/nginx/html:ro
+    ports:
+        - "80:80"
+node1:
+    build: ./src
+    links:
+        - packt-redis
+    ports:
+        - "8080"
+node2:
+    build: ./src
+    links:
+        - packt-redis
+    ports:
+        - "8080"
+node3:
+    build: ./src
+    links:
+        - packt-redis
+    ports:
+        - "8080"
+packt-redis:
+    image: redis:3.2.4
+    ports:
+        - "6379"

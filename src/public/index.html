@@ -1,0 +1,227 @@
+<html>
+
+<head>
+    <title>Do.</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="/public/js/moment.js"></script>
+    <script src="/public/js/livestamp.min.js"></script>
+    <!-- <script src="https://unpkg.com/split.js/split.min.js"></script> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/emoji.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/chat_room.css">
+    <link href="https://fonts.googleapis.com/css?family=Marck+Script" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
+    <script src="https://use.fontawesome.com/45e03a14ce.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
+    <script id="text-template" type="text/x-handlebars-template">
+        <li class="chat-wrapper clearfix">
+            <div class="chat-profile-image" title="{{username}}" style="background-image: url('/public/images/user{{profilePicID}}.jpg')" );"></div>
+            <div class="chat-body clearfix ">
+                <div>
+                    <span class="chat-body-username">{{username}}</span>                    
+                    <span class="chat-body-time" data-livestamp="{{time}}"></span>
+                </div>
+                <div class="chat-body-message">
+                    {{{message}}}
+                </div>
+            </div>
+        </li>
+    </script>
+    <script id="text-file-template" type="text/x-handlebars-template">
+        <li class="chat-wrapper clearfix">
+            <div class="chat-profile-image" title="{{username}}" style="background-image: url('/public/images/user{{profilePicID}}.jpg')" );"></div>
+            <div class="chat-body clearfix ">
+                <div>
+                    <span class="chat-body-username">{{username}}</span>                    
+                    <span class="chat-body-time" data-livestamp="{{time}}"></span>
+                </div>
+                <div class="chat-body-message">
+                    File: {{name}} <br/>
+                    Size: {{size}} <br/>
+                    <a target="blank" href="/download?file={{name}}">click here to download</a>
+                {{#if image}}
+                    <img src="/download?file={{name}}" /> 
+                {{/if}} 
+                {{#if video}}
+                    <video src="/download?file={{name}}" controls="true" />
+                {{/if}}
+                {{#if audio}}
+                    <audio src="/download?file={{name}}" controls="true" />
+                {{/if}}
+                </div>
+            </div>
+        </li>
+    </script>
+    <script src="/public/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/siofu/client.js"></script>
+</head>
+
+<body>
+    <nav class="navbar-inverse navbar-fixed-top">
+        <div class="container-fluid" style="display: flex; flex-direction: row;padding: 5px ">
+            <div class="navbar-header"  style="flex: 2">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar "></span>
+                    <span class="icon-bar "></span>
+                    <span class="icon-bar "></span>
+                </button>
+                <a class="navbar-brand" href="#" id="logo"><span>WorkChat</span></a>
+            </div>
+            <a id="run">
+                Run&nbsp;
+                <span class="glyphicon glyphicon-play"></span>
+            </a>
+            <button type="submit" class="btn btn-outline-info" id="sign-in" href="#signup"data-toggle="modal" data-target=".bs-modal-sm">SIGN IN / REGISTER</button>
+        </div>
+    </nav>
+    <div class="content-wrapper">
+        <div id="sidebar-left">
+            <div id="rooms">
+                <ul class="rooms-list">
+                    <li><div class="room-pic">#</div><div>India Cloud</div></li>
+                    <li><div class="room-pic">#</div><div>Search</div></li>
+                    <li><div class="room-pic">#</div><div>Saperion</div></li>
+                    <li><div class="room-pic">#</div><div>Image Now</div></li>
+                    <li><div class="room-pic">#</div><div>Mobile Team</div></li>
+                </ul>
+            </div>
+        </div>
+        <div id="main">
+            <div class="chat_container" style="width: 100%; flex: 2; overflow: auto;">
+                <div class="col-sm-9 message_section" style="width: 100%">
+                    <div class="row">
+                        <div class="chat_area">
+                            <ul class="list-unstyled">
+                            </ul>
+                        </div>
+                        <!--chat_area-->
+                    </div>
+                </div>
+                <!--message_section-->
+            </div>
+            <div class="footer">
+                <input id="file-input" type="file"/>
+                <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
+            </div>
+        </div>
+        <div id="sidebar-right">
+            <h4 style="font-weight: bold; text-align: center; color: wheat; font-family: 'Marck Script', cursive; font-size: 35px; margin: 0; padding: 10px; background: #282a36">Scribble</h4>
+            <div id="editor-wrapper">
+                <div id="editor"></div>
+            </div>
+            <section id="editor-output">
+                <iframe style="height: 100%;width: 100%" frameBorder="0"></iframe>
+            </section>
+        </div>
+    </div>
+    <!-- Modal -->
+<div class="modal fade bs-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <br>
+        <div class="bs-example bs-example-tabs">
+            <ul id="myTab" class="nav nav-tabs">
+              <li class="active"><a href="#signin" data-toggle="tab">Sign In</a></li>
+              <li class=""><a href="#signup" data-toggle="tab">Register</a></li>
+            </ul>
+        </div>
+      <div class="modal-body">
+        <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="signin">
+            <form class="form-horizontal" method="post" action="/login">
+            <fieldset>
+            <!-- Sign In Form -->
+            <!-- Text input-->
+            <div class="control-group">
+              <label class="control-label" for="username">Username:</label>
+              <div class="controls">
+                <input required="" id="username" name="username" type="text" class="form-control" placeholder="" class="input-medium" required="">
+              </div>
+            </div>
+
+            <!-- Password input-->
+            <div class="control-group">
+              <label class="control-label" for="passwordinput">Password:</label>
+              <div class="controls">
+                <input required="" id="passwordinput" name="password" class="form-control" type="password" placeholder="********" class="input-medium">
+              </div>
+            </div>
+
+            <!-- Button -->
+            <div class="control-group">
+              <label class="control-label" for="signin"></label>
+              <div class="controls">
+                <button id="signin" name="signin" class="btn btn-success">Sign In</button>
+              </div>
+            </div>
+            </fieldset>
+            </form>
+        </div>
+        <div class="tab-pane fade" id="signup">
+            <form class="form-horizontal" method="post" action="/register">
+            <fieldset>
+            <!-- Sign Up Form -->
+            <!-- Text input-->
+            <div class="control-group">
+              <label class="control-label" for="email">Email:</label>
+              <div class="controls">
+                <input id="email" name="email" class="form-control" type="text" placeholder="" class="input-large" required="">
+              </div>
+            </div>
+            
+            <!-- Text input-->
+            <div class="control-group">
+              <label class="control-label" for="username">Username:</label>
+              <div class="controls">
+                <input id="username" name="username" class="form-control" type="text" placeholder="" class="input-large" required="">
+              </div>
+            </div>
+            
+            <!-- Password input-->
+            <div class="control-group">
+              <label class="control-label" for="password">Password:</label>
+              <div class="controls">
+                <input id="password" name="password" class="form-control" type="password" placeholder="********" class="input-large" required="">
+              </div>
+            </div>
+            
+            <!-- Text input-->
+            <div class="control-group">
+              <label class="control-label" for="confirm">Confirm Password:</label>
+              <div class="controls">
+                <input id="confirm" class="form-control" name="confirm" type="password" placeholder="********" class="input-large" required="">
+              </div>
+            </div>
+            
+            <!-- Button -->
+            <div class="control-group">
+              <label class="control-label" for="confirmsignup"></label>
+              <div class="controls">
+                <button id="confirmsignup" name="confirmsignup" class="btn btn-success">Sign Up</button>
+              </div>
+            </div>
+            </fieldset>
+            </form>
+      </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+      <center>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+    <script src="src/public/js/config.js"></script>
+    <script src="src/public/js/util.js"></script>
+    <script src="src/public/js/jquery.emojiarea.js"></script>
+    <script src="src/public/js/emoji-picker.js"></script>
+    <script src="src/public/js/client.js"></script>
+</body>
+
+</html>
